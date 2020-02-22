@@ -1,1 +1,3 @@
 # clipboard-editor
+Electronでのサンプルアプリ
+クリップボードを三つまで切り替えて使用することが可能
