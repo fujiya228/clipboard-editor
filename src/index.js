@@ -1,22 +1,23 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-const {clipboard} = require('electron')
+const { clipboard } = require('electron')
 
 // コンポーネントを定義
 export default class App extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     // 状態を初期化
     this.state = {
       text: '',
       isActive: true,
       rewrite: true,
+      trim: false,
       editor: 0
     }
     // クリップボード監視
     setInterval(e => this.tick(), 1000)
   }
-  tick () {
+  tick() {
     if (!this.state.isActive) return
     let clip = clipboard.readText()
     let clip2 = clip
@@ -29,15 +30,24 @@ export default class App extends Component {
     // 編集テキストを変更
     if (this.state.rewrite) {
       clip2 = newText.value
+      // 改行を半角スペースに変換
+      if (this.state.trim) {
+        clip2 = clip2.replace(/\r?\n{1,}/g, " "); // \r\n or \nが1回以上
+      }
     }
     if (clip !== clip2) {
       clipboard.writeText(clip2)
     }
-    this.setState({text: clip2})
+    this.setState({ text: clip2 })
   }
-  changeState (e) {
+  changeState(e) {
     const name = e.target.name
-    this.setState({[name]: !this.state[name]})
+    this.setState({ [name]: !this.state[name] })
+
+    myNotification.onclick = () => {
+      console.log('Notification clicked')
+    }
+
   }
   changeEditor(num) {
     const newText = document.getElementById('newText_' + num).value
@@ -47,7 +57,7 @@ export default class App extends Component {
     })
     clipboard.writeText(newText)
   }
-  render () {
+  render() {
     const taStyle = {
       width: '100%',
       height: '100px',
@@ -76,6 +86,15 @@ export default class App extends Component {
                       name='rewrite'
                       onChange={e => this.changeState(e)} />
                     クリップボードを編集
+                  </label>
+                </li>
+                <li className='list-group-item'>
+                  <label>
+                    <input type='checkbox'
+                      checked={this.state.trim}
+                      name='trim'
+                      onChange={e => this.changeState(e)} />
+                    改行をトリミング
                   </label>
                 </li>
                 <li className='list-group-item'>

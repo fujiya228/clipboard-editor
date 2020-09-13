@@ -16,13 +16,14 @@ app.on('activate', function () {
 })
 
 // ウィンドウを作成してコンテンツを読み込む
-function createWindow () {
+function createWindow() {
   mainWindow = new BrowserWindow({
     width: 600, height: 600,
     webPreferences: {
       nodeIntegration: true
     }
   })
+  // mainWindow.setAlwaysOnTop(true);
   mainWindow.loadURL(url.format({ // 読み込むコンテンツを指定 --- (※1)
     pathname: path.join(__dirname, 'index.html'),
     protocol: 'file:',
