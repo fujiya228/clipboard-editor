@@ -12,6 +12,7 @@ export default class App extends Component {
       isActive: true,
       rewrite: true,
       trim: false,
+      trim_space: false,
       editor: 0
     }
     // クリップボード監視
@@ -34,6 +35,10 @@ export default class App extends Component {
       if (this.state.trim) {
         clip2 = clip2.replace(/\r?\n{1,}/g, " "); // \r\n or \nが1回以上
       }
+      // 半角スペースをトリミング
+      if (this.state.trim_space) {
+        clip2 = clip2.replace(/\s{1,}/g, ""); // 空白が1回以上
+      }
     }
     if (clip !== clip2) {
       clipboard.writeText(clip2)
@@ -43,11 +48,6 @@ export default class App extends Component {
   changeState(e) {
     const name = e.target.name
     this.setState({ [name]: !this.state[name] })
-
-    myNotification.onclick = () => {
-      console.log('Notification clicked')
-    }
-
   }
   changeEditor(num) {
     const newText = document.getElementById('newText_' + num).value
@@ -95,6 +95,15 @@ export default class App extends Component {
                       name='trim'
                       onChange={e => this.changeState(e)} />
                     改行をトリミング
+                  </label>
+                </li>
+                <li className='list-group-item'>
+                  <label>
+                    <input type='checkbox'
+                      checked={this.state.trim_space}
+                      name='trim_space'
+                      onChange={e => this.changeState(e)} />
+                    空白をトリミング
                   </label>
                 </li>
                 <li className='list-group-item'>
