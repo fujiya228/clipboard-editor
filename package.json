@@ -16,7 +16,7 @@
     "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
-    "electron": "^7.1.10",
+    "electron": "^11.5.0",
     "electron-packager": "^14.2.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
